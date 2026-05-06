@@ -210,8 +210,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             children: _currencies.map((c) {
               final isSelected = currentCode == c['code'];
               return GestureDetector(
-                onTap: () {
-                  StorageService.setCurrency(c['symbol']!, c['code']!);
+                onTap: () async {
+                  await StorageService.setCurrency(c['symbol']!, c['code']!);
                   setState(() {});
                 },
                 child: AnimatedContainer(
