@@ -25,7 +25,7 @@ class BudgetDialog extends StatefulWidget {
 class _BudgetDialogState extends State<BudgetDialog> {
   late double _budget;
   late TextEditingController _controller;
-  static const double _maxSlider = 10000;
+  static const double _maxSlider = 1000000;
   static const double _minSlider = 0;
 
   @override
@@ -239,7 +239,7 @@ class _BudgetDialogState extends State<BudgetDialog> {
                           ),
                         ),
                         Text(
-                          '${StorageService.getCurrencySymbol()}10,000',
+                          '${StorageService.getCurrencySymbol()}1,000,000',
                           style: GoogleFonts.inter(
                             fontSize: 12,
                             color: isDark
