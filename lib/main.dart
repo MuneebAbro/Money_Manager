@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'models/transaction.dart';
 import 'screens/dashboard_screen.dart';
+import 'screens/splash_screen.dart';
 import 'services/storage_service.dart';
 import 'theme/app_theme.dart';
 
@@ -47,16 +48,18 @@ class _ExpenseTrackerAppState extends State<ExpenseTrackerApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Expense Tracker Pro',
+      title: 'Money Manager',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
       themeAnimationDuration: const Duration(milliseconds: 280),
       themeAnimationCurve: Curves.easeInOut,
-      home: DashboardScreen(
-        isDarkMode: _isDarkMode,
-        onThemeChanged: _toggleTheme,
+      home: SplashScreen(
+        destination: DashboardScreen(
+          isDarkMode: _isDarkMode,
+          onThemeChanged: _toggleTheme,
+        ),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../models/transaction.dart';
 import '../theme/app_theme.dart';
+import '../screens/transaction_detail_screen.dart';
 
 class TransactionTile extends StatelessWidget {
   final Transaction transaction;
@@ -53,7 +54,32 @@ class TransactionTile extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(
+              PageRouteBuilder(
+                transitionDuration: const Duration(milliseconds: 420),
+                reverseTransitionDuration: const Duration(milliseconds: 320),
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    TransactionDetailScreen(transaction: transaction),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  final curved = CurvedAnimation(
+                    parent: animation,
+                    curve: Curves.easeOutCubic,
+                  );
+                  return FadeTransition(
+                    opacity: curved,
+                    child: ScaleTransition(
+                      scale: Tween<double>(begin: 0.88, end: 1.0)
+                          .animate(curved),
+                      alignment: Alignment.center,
+                      child: child,
+                    ),
+                  );
+                },
+              ),
+            );
+          },
           splashColor: catColor.withOpacity(0.06),
           highlightColor: catColor.withOpacity(0.04),
           child: Padding(

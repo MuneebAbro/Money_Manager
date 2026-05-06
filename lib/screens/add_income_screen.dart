@@ -79,7 +79,7 @@ class _AddIncomeScreenState extends State<AddIncomeScreen> {
                     TextFormField(
                       controller: _titleController,
                       decoration: const InputDecoration(hintText: 'e.g. Monthly Salary', prefixIcon: Icon(Icons.edit_note_rounded)),
-                      style: GoogleFonts.inter(fontWeight: FontWeight.w500),
+                      style: GoogleFonts.inter(fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onSurface),
                       validator: (v) => (v == null || v.isEmpty) ? 'Please enter a title' : null,
                     ),
                     const SizedBox(height: 20),
@@ -88,7 +88,7 @@ class _AddIncomeScreenState extends State<AddIncomeScreen> {
                     TextFormField(
                       controller: _amountController,
                       decoration: const InputDecoration(hintText: '0.00', prefixIcon: Icon(Icons.attach_money_rounded)),
-                      style: GoogleFonts.inter(fontWeight: FontWeight.w700, fontSize: 18),
+                      style: GoogleFonts.inter(fontWeight: FontWeight.w700, fontSize: 18, color: Theme.of(context).colorScheme.onSurface),
                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
                       validator: (v) {
                         if (v == null || v.isEmpty) return 'Please enter an amount';

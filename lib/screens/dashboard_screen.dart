@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -79,12 +80,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = widget._isDarkMode;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
-      backgroundColor:
-          isDark ? AppTheme.darkBg : const Color(0xFFF4F6FF),
-      body: SafeArea(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+        statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
+      ),
+      child: Scaffold(
+        backgroundColor:
+            isDark ? AppTheme.darkBg : const Color(0xFFF4F6FF),
+        body: SafeArea(
         child: Column(
           children: [
             // ── HEADER ──────────────────────────────────────────────────────
@@ -299,13 +306,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ],
         ),
       ),
-      floatingActionButton: _buildSpeedDial(context),
+        floatingActionButton: _buildSpeedDial(context),
+      ),
     );
   }
 
   Widget _buildIconButton(
       {required IconData icon, required VoidCallback onTap}) {
-    final isDark = widget._isDarkMode;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -331,27 +339,36 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   SpeedDial _buildSpeedDial(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return SpeedDial(
       icon: Icons.add_rounded,
       activeIcon: Icons.close_rounded,
-      spacing: 14,
-      spaceBetweenChildren: 10,
+      spacing: 16,
+      spaceBetweenChildren: 14,
       renderOverlay: true,
       backgroundColor: AppTheme.primaryColor,
       foregroundColor: Colors.white,
-      overlayColor: Colors.black,
-      overlayOpacity: 0.55,
-      elevation: 8,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-      iconTheme: const IconThemeData(size: 26),
+      overlayColor: isDark ? const Color(0xFF0A0E1A) : Colors.black,
+      overlayOpacity: isDark ? 0.7 : 0.5,
+      elevation: 4,
+      buttonSize: const Size(60, 60),
+      childrenButtonSize: const Size(52, 52),
+      shape: const CircleBorder(),
+      iconTheme: const IconThemeData(size: 28),
       children: [
         SpeedDialChild(
-          child: const Icon(Icons.remove_rounded),
+          child: const Icon(Icons.trending_down_rounded, size: 22),
           backgroundColor: AppTheme.expenseColor,
           foregroundColor: Colors.white,
           label: 'Add Expense',
-          labelStyle: GoogleFonts.inter(fontWeight: FontWeight.w600),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          labelStyle: GoogleFonts.inter(
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+            color: isDark ? Colors.white : const Color(0xFF1F2937),
+          ),
+          labelBackgroundColor: isDark ? AppTheme.darkCard : Colors.white,
+          shape: const CircleBorder(),
+          elevation: 0,
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => const AddExpenseScreen(),
@@ -359,12 +376,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
           },
         ),
         SpeedDialChild(
-          child: const Icon(Icons.add_rounded),
+          child: const Icon(Icons.trending_up_rounded, size: 22),
           backgroundColor: AppTheme.incomeColor,
           foregroundColor: Colors.white,
           label: 'Add Income',
-          labelStyle: GoogleFonts.inter(fontWeight: FontWeight.w600),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          labelStyle: GoogleFonts.inter(
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+            color: isDark ? Colors.white : const Color(0xFF1F2937),
+          ),
+          labelBackgroundColor: isDark ? AppTheme.darkCard : Colors.white,
+          shape: const CircleBorder(),
+          elevation: 0,
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => const AddIncomeScreen(),
