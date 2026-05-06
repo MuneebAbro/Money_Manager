@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../services/storage_service.dart';
 import '../theme/app_theme.dart';
 
 class SummaryCard extends StatelessWidget {
@@ -47,7 +48,7 @@ class SummaryCard extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            '\$${totalBalance.toStringAsFixed(2)}',
+            '${StorageService.getCurrencySymbol()}${totalBalance.toStringAsFixed(2)}',
             style: GoogleFonts.inter(
               color: Colors.white,
               fontSize: 36,
@@ -96,7 +97,7 @@ class SummaryCard extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            '\$${amount.toStringAsFixed(2)}',
+            '${StorageService.getCurrencySymbol()}${amount.toStringAsFixed(2)}',
             style: GoogleFonts.inter(
               color: Colors.white,
               fontSize: 17,

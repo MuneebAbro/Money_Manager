@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../services/storage_service.dart';
 import '../theme/app_theme.dart';
 
 class BudgetCard extends StatelessWidget {
@@ -176,7 +177,7 @@ class BudgetCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '\$${spent.toStringAsFixed(0)}',
+                      '${StorageService.getCurrencySymbol()}${spent.toStringAsFixed(0)}',
                       style: GoogleFonts.inter(
                         fontWeight: FontWeight.w800,
                         fontSize: 18,
@@ -185,7 +186,7 @@ class BudgetCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'of \$${budget.toStringAsFixed(0)}',
+                      'of ${StorageService.getCurrencySymbol()}${budget.toStringAsFixed(0)}',
                       style: GoogleFonts.inter(
                         fontSize: 12,
                         color: isDark ? const Color(0xFF6B7280) : const Color(0xFF9CA3AF),
@@ -231,7 +232,7 @@ class BudgetCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '\$${remaining.toStringAsFixed(0)} remaining',
+                  '${StorageService.getCurrencySymbol()}${remaining.toStringAsFixed(0)} remaining',
                   style: GoogleFonts.inter(
                     fontSize: 12,
                     color: isDark ? const Color(0xFF6B7280) : const Color(0xFF9CA3AF),

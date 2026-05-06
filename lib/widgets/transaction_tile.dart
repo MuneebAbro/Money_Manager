@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../models/transaction.dart';
+import '../services/storage_service.dart';
 import '../theme/app_theme.dart';
 import '../screens/transaction_detail_screen.dart';
 
@@ -133,7 +134,7 @@ class TransactionTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '${transaction.isIncome ? '+' : '−'}\$${transaction.amount.toStringAsFixed(2)}',
+                      '${transaction.isIncome ? '+' : '−'}${StorageService.getCurrencySymbol()}${transaction.amount.toStringAsFixed(2)}',
                       style: GoogleFonts.inter(
                         color: amountColor,
                         fontWeight: FontWeight.w700,

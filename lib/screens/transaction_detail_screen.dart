@@ -3,6 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/transaction.dart';
+import '../services/storage_service.dart';
 import '../theme/app_theme.dart';
 
 class TransactionDetailScreen extends StatefulWidget {
@@ -513,7 +514,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen>
               const SizedBox(height: 16),
               // Big amount
               Text(
-                '${_isIncome ? '+' : '−'}\$${widget.transaction.amount.toStringAsFixed(2)}',
+                '${_isIncome ? '+' : '−'}${StorageService.getCurrencySymbol()}${widget.transaction.amount.toStringAsFixed(2)}',
                 style: GoogleFonts.inter(
                   color: Colors.white,
                   fontSize: 32,

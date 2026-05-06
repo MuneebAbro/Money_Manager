@@ -152,7 +152,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
             // ── SCROLLABLE CONTENT ──────────────────────────────────────────
             Expanded(
-              child: SingleChildScrollView(
+              child: ValueListenableBuilder(
+                valueListenable: StorageService.getSettingsListenable(),
+                builder: (context, settingsBox, _) {
+                  return SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -301,6 +304,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                   ],
                 ),
+              );
+                },
               ),
             ),
           ],

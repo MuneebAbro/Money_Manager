@@ -40,7 +40,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     StorageService.setBudget(amount);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Budget updated to \$${amount.toStringAsFixed(0)}', style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
+        content: Text('Budget updated to ${StorageService.getCurrencySymbol()}${amount.toStringAsFixed(0)}', style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
@@ -112,6 +112,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           const SizedBox(height: 20),
 
+          // ── CURRENCY ──────────────────────────────────────────────────────
+          _sectionLabel('Currency'),
+          _card(isDark, child: _currencySelector(isDark)),
+
+          const SizedBox(height: 20),
+
           // ── BUDGET ───────────────────────────────────────────────────────
           _sectionLabel('Monthly Budget'),
           _card(isDark, child: _budgetSection(isDark)),
@@ -158,6 +164,97 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  // ── Currency ──────────────────────────────────────────────────────────────
+  static const List<Map<String, String>> _currencies = [
+    {'flag': '🇵🇰', 'code': 'PKR', 'symbol': 'Rs ', 'name': 'Pakistani Rupee'},
+    {'flag': '🇺🇸', 'code': 'USD', 'symbol': '\$', 'name': 'US Dollar'},
+    {'flag': '🇪🇺', 'code': 'EUR', 'symbol': '€', 'name': 'Euro'},
+    {'flag': '🇬🇧', 'code': 'GBP', 'symbol': '£', 'name': 'British Pound'},
+    {'flag': '🇮🇳', 'code': 'INR', 'symbol': '₹', 'name': 'Indian Rupee'},
+    {'flag': '🇦🇪', 'code': 'AED', 'symbol': 'د.إ', 'name': 'UAE Dirham'},
+    {'flag': '🇸🇦', 'code': 'SAR', 'symbol': '﷼', 'name': 'Saudi Riyal'},
+    {'flag': '🇨🇦', 'code': 'CAD', 'symbol': 'C\$', 'name': 'Canadian Dollar'},
+    {'flag': '🇦🇺', 'code': 'AUD', 'symbol': 'A\$', 'name': 'Australian Dollar'},
+    {'flag': '🇯🇵', 'code': 'JPY', 'symbol': '¥', 'name': 'Japanese Yen'},
+  ];
+
+  Widget _currencySelector(bool isDark) {
+    final currentCode = StorageService.getCurrencyCode();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 8, bottom: 10),
+            child: Row(children: [
+              Container(
+                width: 40, height: 40,
+                decoration: BoxDecoration(
+                  color: AppTheme.warningColor.withOpacity(0.12),
+                  borderRadius: BorderRadius.circular(11),
+                ),
+                child: const Icon(Icons.currency_exchange_rounded, color: AppTheme.warningColor, size: 20),
+              ),
+              const SizedBox(width: 14),
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text('Currency', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 15)),
+                Text('Select your preferred currency', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF9CA3AF))),
+              ]),
+            ]),
+          ),
+          const SizedBox(height: 4),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: _currencies.map((c) {
+              final isSelected = currentCode == c['code'];
+              return GestureDetector(
+                onTap: () {
+                  StorageService.setCurrency(c['symbol']!, c['code']!);
+                  setState(() {});
+                },
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? AppTheme.primaryColor
+                        : (isDark ? AppTheme.darkBg : const Color(0xFFF0F2FF)),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: isSelected
+                          ? AppTheme.primaryColor
+                          : (isDark ? AppTheme.darkBorder : AppTheme.lightBorder),
+                      width: 1.5,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(c['flag']!, style: const TextStyle(fontSize: 18)),
+                      const SizedBox(width: 6),
+                      Text(
+                        c['code']!,
+                        style: GoogleFonts.inter(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: isSelected
+                              ? Colors.white
+                              : (isDark ? Colors.white70 : const Color(0xFF374151)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
   // ── Budget ────────────────────────────────────────────────────────────────
   Widget _budgetSection(bool isDark) {
     return Padding(
@@ -186,9 +283,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: TextField(
                 controller: _budgetController,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: 'e.g. 1500',
-                  prefixIcon: Icon(Icons.attach_money_rounded),
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Text(
+                      StorageService.getCurrencySymbol(),
+                      style: GoogleFonts.inter(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: AppTheme.primaryColor,
+                      ),
+                    ),
+                  ),
                 ),
                 style: GoogleFonts.inter(
                   fontWeight: FontWeight.w600,

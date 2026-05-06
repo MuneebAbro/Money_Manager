@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../services/storage_service.dart';
 
 class BalanceCard extends StatelessWidget {
   final double balance;
@@ -101,7 +102,7 @@ class BalanceCard extends StatelessWidget {
                   builder: (context, value, _) {
                     final isNegative = value < 0;
                     return Text(
-                      '${isNegative ? '-' : ''}\$${value.abs().toStringAsFixed(2)}',
+                      '${isNegative ? '-' : ''}${StorageService.getCurrencySymbol()}${value.abs().toStringAsFixed(2)}',
                       style: GoogleFonts.inter(
                         color: Colors.white,
                         fontSize: 40,
@@ -176,7 +177,7 @@ class BalanceCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            '\$${amount.toStringAsFixed(2)}',
+            '${StorageService.getCurrencySymbol()}${amount.toStringAsFixed(2)}',
             style: GoogleFonts.inter(
               color: Colors.white,
               fontSize: 18,

@@ -175,7 +175,7 @@ class _BudgetDialogState extends State<BudgetDialog> {
                 child: Column(
                   children: [
                     Text(
-                      '\$${_budget.toStringAsFixed(0)}',
+                      '${StorageService.getCurrencySymbol()}${_budget.toStringAsFixed(0)}',
                       style: GoogleFonts.inter(
                         fontSize: 44,
                         fontWeight: FontWeight.w800,
@@ -230,7 +230,7 @@ class _BudgetDialogState extends State<BudgetDialog> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '\$0',
+                          '${StorageService.getCurrencySymbol()}0',
                           style: GoogleFonts.inter(
                             fontSize: 12,
                             color: isDark
@@ -239,7 +239,7 @@ class _BudgetDialogState extends State<BudgetDialog> {
                           ),
                         ),
                         Text(
-                          '\$10,000',
+                          '${StorageService.getCurrencySymbol()}10,000',
                           style: GoogleFonts.inter(
                             fontSize: 12,
                             color: isDark
@@ -280,7 +280,7 @@ class _BudgetDialogState extends State<BudgetDialog> {
                         color: Theme.of(context).colorScheme.onSurface,
                       ),
                       decoration: InputDecoration(
-                        prefixText: '\$ ',
+                        prefixText: '${StorageService.getCurrencySymbol()} ',
                         prefixStyle: GoogleFonts.inter(
                           fontWeight: FontWeight.w600,
                           fontSize: 16,

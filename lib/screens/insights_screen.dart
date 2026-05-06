@@ -205,9 +205,9 @@ class _InsightsScreenState extends State<InsightsScreen>
                             mainAxisSpacing: 12,
                             childAspectRatio: 1.6,
                             children: [
-                              AnimatedCard(index: 0, child: _statCard('Total Spend', '\$${totalExpense.toStringAsFixed(0)}', Icons.account_balance_wallet_rounded, AppTheme.primaryColor, isDark)),
+                              AnimatedCard(index: 0, child: _statCard('Total Spend', '${StorageService.getCurrencySymbol()}${totalExpense.toStringAsFixed(0)}', Icons.account_balance_wallet_rounded, AppTheme.primaryColor, isDark)),
                               AnimatedCard(index: 0, child: _statCard('Top Category', topCategory, Icons.category_rounded, _catColor(topCategory), isDark)),
-                              AnimatedCard(index: 0, child: _statCard('Highest', '\$${maxExpense.toStringAsFixed(0)}', Icons.trending_up_rounded, const Color(0xFFFF9500), isDark)),
+                              AnimatedCard(index: 0, child: _statCard('Highest', '${StorageService.getCurrencySymbol()}${maxExpense.toStringAsFixed(0)}', Icons.trending_up_rounded, const Color(0xFFFF9500), isDark)),
                               AnimatedCard(index: 0, child: _statCard('Transactions', '${expenses.length}', Icons.list_alt_rounded, const Color(0xFFAF52DE), isDark)),
                             ],
                           ),
@@ -511,7 +511,7 @@ class _InsightsScreenState extends State<InsightsScreen>
                         ),
                       ),
                       Text(
-                        '\$${catTotal.toStringAsFixed(2)}',
+                        '${StorageService.getCurrencySymbol()}${catTotal.toStringAsFixed(2)}',
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.w800, fontSize: 16, color: color, letterSpacing: -0.5,
                         ),
@@ -546,7 +546,7 @@ class _InsightsScreenState extends State<InsightsScreen>
                           ),
                         ),
                         Text(
-                          '−\$${tx.amount.toStringAsFixed(2)}',
+                          '−${StorageService.getCurrencySymbol()}${tx.amount.toStringAsFixed(2)}',
                           style: GoogleFonts.inter(
                             fontWeight: FontWeight.w700, fontSize: 14,
                             color: AppTheme.expenseColor,

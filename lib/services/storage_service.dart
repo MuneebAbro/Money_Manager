@@ -44,6 +44,25 @@ class StorageService {
     await box.put(_timeFilterKey, value);
   }
 
+  static const String _currencyKey = 'currency';
+
+  // Currency Logic
+  static String getCurrencySymbol() {
+    final box = Hive.box(_settingsBoxName);
+    return box.get(_currencyKey, defaultValue: '\$');
+  }
+
+  static String getCurrencyCode() {
+    final box = Hive.box(_settingsBoxName);
+    return box.get('${_currencyKey}_code', defaultValue: 'USD');
+  }
+
+  static Future<void> setCurrency(String symbol, String code) async {
+    final box = Hive.box(_settingsBoxName);
+    await box.put(_currencyKey, symbol);
+    await box.put('${_currencyKey}_code', code);
+  }
+
   static ValueListenable<Box> getSettingsListenable() {
     return Hive.box(_settingsBoxName).listenable();
   }
